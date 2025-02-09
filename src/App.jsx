@@ -5,7 +5,16 @@ import Footer from './components/Footer';
 
 import Home from './pages/Home';
 import Signup from './pages/Signup';
+
+import Hero from './components/Hero'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import BlogPage from "./pages/BlogPage";
+import Home from './pages/Home'
+import Signup from './pages/Signup'
+
 import Signin from './pages/Signin';
+import AboutUs from './pages/AboutUs';
 
 import {
   BrowserRouter,
@@ -14,6 +23,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
+
+
 
 function App() {
   const [token, setToken] = useState(false);
@@ -47,10 +58,25 @@ function App() {
           <Route path="/login" element={<Signin setToken={setToken} />} />
         </Routes>
         <Hero />
+    <div className=" text-white h-screen" >
+      <BrowserRouter>
+        <Header />
+        <Routes>
+
+          <Route path="/" element={<Home />} />
+          <Route path="/About" element={<AboutUs/>} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/Login" element={<Signin />} />
+          <Route path="/Blogs" element={<BlogPage />} />
+         
+       
+        </Routes>
+     
       </BrowserRouter>
       <Footer />
     </div>
   );
 }
+
 
 export default App;
