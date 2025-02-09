@@ -1,6 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react';
+import {Link,useNavigate} from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 
-const Signin = () => {
+
+const Signin = ({setToken}) => {
+    let navigate=useNavigate()
+
+     const [formData, setFormData] = useState({
+        email: '',
+        password: '', 
+       
+      });
+    
+      console.log(formData);
+    
+      function handleChange(event) {
+        setFormData((prevFormData) => {
+          return {
+            ...prevFormData,
+            [event.target.name]: event.target.value,
+          };
+        });
+      }
+    
+      async function handleSubmit(event) {
+        event.preventDefault(); // Prevent page reload on submit
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: formData.email,
+                password: formData.password,
+              })
+              
+          if (error) throw error;
+          console.log(data)
+          setToken(data)
+          navigate("/home");
+
+
+
+        } catch (error) {
+          alert(error.message);
+        }
+      }
   return (
     <div>
       
@@ -22,14 +63,14 @@ const Signin = () => {
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
                     Sign in to Travista
                 </h2>
-                <form class="mt-8 space-y-6" action="#">
+                <form class="mt-8 space-y-6" onSubmit={handleSubmit} action="#">
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
+                        <input type="email" name="email" id="email"  onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
                     </div>
                     <div>
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-                        <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                        <input type="password" name="password" id="password"  onChange={handleChange} placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                     <div class="flex items-start">
                         <div class="flex items-center h-5">
