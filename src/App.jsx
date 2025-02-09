@@ -1,4 +1,5 @@
 import './App.css';
+
 import Hero from './components/Hero';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -45,32 +46,23 @@ function App() {
   }, []);
 
   return (
+
     <div className="text-white h-screen">
       <BrowserRouter>
         <Header />
         <Routes>
           {/* Define the route path as '/home' (lowercase) */}
           <Route path="/home" element={token ? <Home token={token} /> : <Navigate to="/login" />} />
-          
+          <Route path="/About" element={<AboutUs/>} />
+
           <Route path="/signup" element={<Signup />} />
-          
+          <Route path="/Blogs" element={<BlogPage />} />
+
           {/* Ensure '/login' path is lowercase */}
           <Route path="/login" element={<Signin setToken={setToken} />} />
         </Routes>
         <Hero />
-    <div className=" text-white h-screen" >
-      <BrowserRouter>
-        <Header />
-        <Routes>
-
-          <Route path="/" element={<Home />} />
-          <Route path="/About" element={<AboutUs/>} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/Login" element={<Signin />} />
-          <Route path="/Blogs" element={<BlogPage />} />
-         
-       
-        </Routes>
+      
      
       </BrowserRouter>
       <Footer />
